@@ -1,0 +1,34 @@
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>Thank You!</title>
+</head>
+<body>
+  <h1>Thanks <%= name %></h1>
+  <h3>Tel no: <%= tel_no %></h3>
+  <h3>Reg date: <%= reg_date_time %></h3>
+
+  <p>Thanks for coming to the conference.  We couldn't have done it without you!</p>
+
+  <p>
+    Political activism is at the heart of any democracy and your voice needs to be heard.
+    Please consider reaching out to your following representatives:
+  </p>
+
+  <table>
+    <% if legislators.kind_of?(Array) %>
+    <th>Legislators</th><th>Website</th>
+      <% legislators.each do |legislator| %>
+      <tr>
+        <td><%= legislator.name %></td>
+        <td><%= legislator.urls.join(" ") unless legislator.urls.nil? %></td>
+      </tr>
+      <% end %>
+    <% else %>
+      <th>Legislators</th>
+      <td><%= legislators %></td>
+    <% end %>      
+  </table>
+
+</body>
+</html>
