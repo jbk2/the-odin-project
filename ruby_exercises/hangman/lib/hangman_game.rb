@@ -22,20 +22,7 @@ class Game
 		@loaded_game						= false
 	end
 
-	def random_word_with_length(shortest, longest)
-		dictionary = 'google-10000-english-no-swears.txt'
-		dictionary_file = File.open(dictionary, 'r')
-		array_of_words = dictionary_file.to_a
-		loop do
-			random_word = array_of_words.sample 
-			if random_word.strip.length.between?(shortest, longest)
-				@chosen_word = random_word.strip
-				puts "random word between #{shortest} and #{longest} chars has been chosen"
-				return @chosen_word
-			end
-		end
-		dictionary_file.close
-	end
+	public #*************************************
 
 	def play_game
 		load_game_question
@@ -50,17 +37,20 @@ class Game
 		end
 	end
 
-	def game_over?
-		if !pretty_print_result.include?('_')
-				puts "well done, you won #{pretty_print_result} ********"
-				return true
-		elsif @no_of_guesses_taken >= @no_of_guesses_allowed
-			puts "sorry, you've used all your guesses, you lose, game over "
-			return true
-			# exit
+	private #*************************************
+
+	def initialize_result_hash
+		@chosen_word.split('').each_with_index do |char, index|
+			@result[index] = [char, '_']
 		end
+		# puts "initial result is; #{@result}"
 	end
-			
+
+	def initialize_guess_allowance
+		@no_of_guesses_allowed = @chosen_word.length
+		puts "you are allowed #{@no_of_guesses_allowed} guesses."
+	end
+
 	def load_game_question
 		puts 'would you like to load prevoius game? type y or n'
 		load = gets.chomp
@@ -68,6 +58,31 @@ class Game
 			@loaded_game = true
 			load_game
 		end
+	end
+
+	def load_game
+		old_game = Marshal.load(File.read('dump'))
+		@chosen_word						= old_game.chosen_word
+		@no_of_guesses_allowed	= old_game.no_of_guesses_allowed
+		@no_of_guesses_taken		=	old_game.no_of_guesses_taken
+		@result 								= old_game.result
+		@guesses								= old_game.guesses
+		puts "game loaded, here's current status; #{pretty_print_result}\nand you have #{@no_of_guesses_allowed} guesses remaining."
+	end
+
+	def random_word_with_length(shortest, longest)
+		dictionary = 'google-10000-english-no-swears.txt'
+		dictionary_file = File.open(dictionary, 'r')
+		array_of_words = dictionary_file.to_a
+		loop do
+			random_word = array_of_words.sample 
+			if random_word.strip.length.between?(shortest, longest)
+				@chosen_word = random_word.strip
+				puts "random word between #{shortest} and #{longest} chars has been chosen"
+				return @chosen_word
+			end
+		end
+		dictionary_file.close
 	end
 
 	def human_players_turn
@@ -85,49 +100,6 @@ class Game
 		check_guess(guess)
 	end
 
-	def save_game
-		instance = Marshal.dump(self)
-		serialized_file = File.write('dump', instance)
-		puts 'file saved, bye'
-		exit
-	end
-
-	def load_game
-		old_game = Marshal.load(File.read('dump'))
-		@chosen_word						= old_game.chosen_word
-		@no_of_guesses_allowed	= old_game.no_of_guesses_allowed
-		@no_of_guesses_taken		=	old_game.no_of_guesses_taken
-		@result 								= old_game.result
-		@guesses								= old_game.guesses
-		puts "game loaded, here we are #{@chosen_word} #{pretty_print_result}"
-	end
-
-	def display_result
-		puts "you've had #{@no_of_guesses_taken} out of #{@no_of_guesses_allowed} allowed guesses"
-		puts "heres the current result #{pretty_print_result}"
-		# binding.pry
-	end
-
-	def pretty_print_result
-		result_string = ""
-		@result.each_pair do |k,v|
-			result_string << v[1]
-		end
-		result_string
-	end
-
-	def initialize_result_hash
-		@chosen_word.split('').each_with_index do |char, index|
-			@result[index] = [char, '_']
-		end
-		# puts "initial result is; #{@result}"
-	end
-
-	def initialize_guess_allowance
-		@no_of_guesses_allowed = @chosen_word.length
-		puts "you are allowed #{@no_of_guesses_allowed} guesses."
-	end
-
 	def check_guess(guess)
 		guess.split('').each_with_index do |item, index|
 			@result.each_pair do |k, v|
@@ -137,7 +109,38 @@ class Game
 			end
 		end
 	end
+	
+	def pretty_print_result
+		result_string = ""
+		@result.each_pair do |k,v|
+			result_string << v[1]
+		end
+		result_string
+	end
 
+	def display_result
+		puts "you've had #{@no_of_guesses_taken} out of #{@no_of_guesses_allowed} allowed guesses"
+		puts "heres the current result #{pretty_print_result}"
+		# binding.pry
+	end
+
+	def game_over?
+		if !pretty_print_result.include?('_')
+				puts "well done, you won #{pretty_print_result} ********"
+				return true
+		elsif @no_of_guesses_taken >= @no_of_guesses_allowed
+			puts "sorry, you've used all your guesses, you lose, game over "
+			return true
+			# exit
+		end
+	end
+
+	def save_game
+		instance = Marshal.dump(self)
+		serialized_file = File.write('dump', instance)
+		puts 'file saved, bye'
+		exit
+	end
 end
 
 g = Game.new
