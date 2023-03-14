@@ -31,5 +31,16 @@ RSpec.describe Array do
         expect(my_each_results).to eq(each_results)
       end
     end
+    context 'when not given a block' do
+      it 'returns original array as an Enumerator' do
+        my_each_results = array.my_each
+        # This should return an Enumerator
+        puts "here's my_each_results inspect results: #{my_each_results.inspect}"
+        puts "here's my_each_results object ID: #{my_each_results.object_id}"
+        puts "and here's array.each inspect results: #{array.each.inspect}"
+        puts "and here's array.each object ID: #{array.each.object_id}"
+        expect(my_each_results).to eq(array.each)
+      end
+    end
   end
 end

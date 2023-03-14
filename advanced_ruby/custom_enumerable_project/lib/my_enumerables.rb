@@ -10,5 +10,13 @@ class Array
   # Define my_each here
 
   def my_each
+    if block_given?
+      for element in self
+        yield(element)
+      end
+    else
+      self.to_enum
+    end
   end
+
 end
