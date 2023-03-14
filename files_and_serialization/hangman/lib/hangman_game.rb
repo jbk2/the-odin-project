@@ -1,15 +1,5 @@
 require 'pry-byebug'
 
-# Handy methods from IO / File IO / Line IO / Character IO classes that I found helpful; , 
-	# IO
-		# 
-	# File IO
-		# #new, #open, #read, #write, #close, #path, #readlink, #birthtime, #directory?, #readable?, #writable?, #empty?, #size, #chmod, #chown, #rename, #truncate
-	# Line IO
-		# #gets || #readline, #readlines, #eachline || #each, #eof?, #tell || #pos, #lineno, #foreach, #seek, #rewind
-	# Character IO
-		# 
-
 class Game
 	attr_accessor :chosen_word, :no_of_guesses_allowed, :no_of_guesses_taken, :result, :guesses, :loaded_game
 
