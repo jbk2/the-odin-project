@@ -12,6 +12,10 @@ module Enumerable
     end
   end
 
+  def my_select
+    
+  end
+
 end
 
 class Array
@@ -25,9 +29,3 @@ class Array
     end
   end
 end
-
-
- a = %w'1 4 6 2 6 8 8 4'
-
- puts a.to_enum.inspect
-
