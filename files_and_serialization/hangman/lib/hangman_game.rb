@@ -5,8 +5,9 @@ class Game
 
 	def initialize
 		@chosen_word						= String.new
-		@no_of_guesses_allowed	= 0
+		@no_of_guesses_allowed 	= 0
 		@no_of_guesses_taken		=	0
+		# or @no_of_guesses_allowed, @no_of_guesses_taken = 0, 0
 		@result 								= Hash.new
 		@guesses								= Array.new
 		@loaded_game						= false
