@@ -21,5 +21,12 @@ RSpec.describe Enumerable do
         expect(enumerable.my_map(&:odd?)).to eq([true, true, false, true, true, false, true, true, false])
       end
     end
+
+    context 'when not given a block' do
+      it 'returns an Enumerable' do
+        expect(enumerable.my_map).to be_instance_of(Enumerator)
+      end
+    end
   end
+  
 end
