@@ -1,5 +1,4 @@
 module Enumerable
-  # require 'pry-byebug'
   
   def my_each_with_index
     count = 0
@@ -98,15 +97,14 @@ module Enumerable
       end
       return mapped_array
     else
-      self.to_enum
+      to_enum
     end
   end
 
-  def my_inject(initial, *method)
+  def my_inject(initial) # Have not dealt with method named as symbol scenario
     sum = initial
     my_each do |e|
-      new_value = (yield(sum, e.to_i))
-      sum = new_value
+      sum = (yield(sum, e.to_i))
     end
     return sum
   end
@@ -135,7 +133,3 @@ class Array
     end
   end
 end
-
-# a = %w'1 53 77 2 7 8'
-# e = a.to_enum
-# puts a.my_inject(0) { |sum, value| sum + value }
