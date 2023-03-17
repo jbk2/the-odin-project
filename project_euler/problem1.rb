@@ -14,5 +14,7 @@ def factorial(n, total=0)
   total
 end
 
-
+def factorial1(n)
+  n == 0 ? 1 : n * factorial(n-1)
+end
 puts factorial(5)
