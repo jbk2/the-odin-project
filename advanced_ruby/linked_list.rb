@@ -19,14 +19,27 @@ class LinkedList
     end
   end
 
-  # def prepend(value)
-  #   if head.nil?
-  #     self.head = Node.new(value, nil)
-  #   else
-  #     head = Node.new(value, self.head)
-  #   end
-  # end
+  def prepend(value)
+    if head.nil?
+      self.head = Node.new(value, nil)
+    else
+      self.head = Node.new(value, self.head)
+    end
+  end
   
+  def contains?(value)
+    current_node = head
+    until current_node.nil?
+      if current_node.value == value
+        puts "yay, found #{current_node.value}."
+        return true
+      end
+      current_node = current_node.next_node
+    end
+    puts "LinkedList does not contain #{value}."
+    false
+  end
+
   # def size
   # end
   
@@ -48,18 +61,6 @@ class LinkedList
   # def to_s
   # end
   
-  def contains?(value)
-    current_node = head
-    until current_node.nil?
-      if current_node.value == value
-        puts "yay, found #{current_node.value}."
-        return true
-      end
-      current_node = current_node.next_node
-    end
-    puts "LinkedList does not contain #{value}."
-    false
-  end
   
 end
 
@@ -98,5 +99,6 @@ ll.contains?(5)
 ll.contains?(15)
 ll.contains?(6)
 
-# ll.prepend(23)
+ll.prepend(23)
 ll.contains?(23)
+ll.contains?(6)
