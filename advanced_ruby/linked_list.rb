@@ -63,8 +63,14 @@ class LinkedList
   def remove_at(index)
   end
 
-  # def size
-  # end
+  def size
+    counter = 0
+    until head.nil?
+      counter += 1
+      self.head = head.next_node
+    end
+    return counter
+  end
   
   # def head_node
   # end
@@ -120,6 +126,8 @@ p ll.inspect
 ll.remove(25)
 ll.contains?(25)
 p ll.inspect
+
+p ll.size
 
 
 # ll.contains?(10)
