@@ -60,9 +60,9 @@ class LinkedList
     end
   end
 
-  def remove_at(index)
-  end
-
+  # def remove_at(index)
+  # end
+  
   def size
     counter = 0
     node = head
@@ -93,8 +93,15 @@ class LinkedList
     end
   end
   
-  # def at(index)
-  # end
+
+  def at(index)
+    return if head.nil?
+    node = head
+    index.times do
+      node = node.next_node
+    end
+    puts "node at index #{index} is; #{node}"; p node;
+  end
   
   # def pop
   # end
@@ -132,25 +139,26 @@ ll.contains?(10)
 ll.contains?(20)
 ll.contains?(25)
 ll.contains?(30)
-
 ll.remove(10)
 ll.contains?(10)
 p ll.inspect
 
+ll.at(2) # should return the node at index 2.
 
-ll.remove(25)
-ll.contains?(25)
-p ll.inspect
 
-p ll.size
+# ll.remove(25)
+# ll.contains?(25)
+# p ll.inspect
 
-puts ll.head_node
+# p ll.size
 
-puts ll.tail_node
+# puts ll.head_node
 
-empty = LinkedList.new
-empty.append(10)
-p empty.size
+# puts ll.tail_node
+
+# empty = LinkedList.new
+# empty.append(10)
+# p empty.size
 
 # ll.contains?(10)
 # ll.remove(10)
