@@ -65,18 +65,33 @@ class LinkedList
 
   def size
     counter = 0
-    until head.nil?
+    node = head
+    until node.nil?
       counter += 1
-      self.head = head.next_node
+      node = node.next_node
     end
     return counter
   end
   
-  # def head_node
-  # end
+  def head_node
+    p "this is my head node value; #{head.value}"
+    p "this is my head node next_node; #{head.next_node}"
+    return head
+  end
   
-  # def tail_node
-  # end
+  def tail_node
+    return if head.nil?
+    node = head
+    while node
+      if node.next_node.nil?
+        puts "this is my tail node value #{node.value}"
+        puts "my tail node's next_node is nil" if node.next_node.nil? 
+        # p node
+        return node
+      end
+      node = node.next_node
+    end
+  end
   
   # def at(index)
   # end
@@ -129,6 +144,13 @@ p ll.inspect
 
 p ll.size
 
+puts ll.head_node
+
+puts ll.tail_node
+
+empty = LinkedList.new
+empty.append(10)
+p empty.size
 
 # ll.contains?(10)
 # ll.remove(10)
