@@ -60,8 +60,18 @@ class LinkedList
     end
   end
 
-  # def remove_at(index)
-  # end
+  def remove_at(index)
+    if head.nil? || index > self.size
+      return
+    elsif index == 0
+      self.head = self.at(index +1)
+    else
+      previous_node = self.at(index - 1)
+      following_nodes = self.at(index + 1)
+      previous_node.next_node = following_nodes
+    end
+    p self 
+  end
   
   def size
     counter = 0
@@ -91,7 +101,6 @@ class LinkedList
       node = node.next_node
     end
   end
-  
 
   def at(index)
     return if head.nil?
@@ -99,40 +108,25 @@ class LinkedList
     index.times do
       node = node.next_node
     end
-    puts "node at index #{index} is; #{node}"; p node;
+    puts "node at index #{index} is; #{node.inspect}"
+    return node
   end
-  
-  
+
   def pop
-    return if head.nil?
-    current_node = head
-    current_node = current_node.next_node until current_node.next_node.next_node.nil?
-    current_node.next_node = nil
-    return current_node
+    if head.nil?
+      return head
+    elsif head.next_node.nil?
+      self.head = nil
+      return head
+    else
+      second_last_node = head
+      second_last_node = second_last_node.next_node until second_last_node.next_node.next_node.nil?
+  
+      last_node = second_last_node.next_node
+      second_last_node.next_node = nil
+      return last_node
+    end
   end
-
-
-  #   while current_node
-  #     while current_node.next_node
-  #     end
-  #       current_node = nil
-  #       return
-  #     end
-  #   end
-  # end
-
-  #   while current_node
-  #     # puts "here's current node before; #{current_node}"
-  #     current_node = current_node.next_node
-  #     # puts "here's current node after; #{current_node}"
-  #     if current_node.next_node.nil?
-  #       # puts "here's current node's next node; #{current_node.next_node}"
-  #       current_node = nil
-  #     end
-  #     p "inspecting current_node; #{current_node.inspect}"
-  #     return current_node
-  #   end
-  # end
 
   def last_node?(node)
     return true if node.next_node.nil?
@@ -149,10 +143,19 @@ class LinkedList
     return counter
   end
   
-  # def to_s
-  # end
-  
-  
+  def to_s
+    output_string = ""
+    node = head
+    while node
+      if node.next_node
+        output_string << "(#{node.value.to_s}) -> "
+      elsif node.next_node.nil?
+        output_string << "(#{node.value.to_s}) -> nil"
+      end
+      node = node.next_node
+    end 
+    return output_string
+  end  
 end
 
 private
@@ -182,15 +185,20 @@ ll.remove(10)
 ll.contains?(10)
 p ll.inspect
 
-p ll.find(2)
+ll.remove_at(0)
 
-# p "here's ll's head #{ll.head}"
-
-# ll.tail_node
-
-# p "here's popped ll; #{ll.pop.inspect} "
+# ll.at(2)
 
 # p ll.inspect
+# p ll.pop
+# p ll.inspect
+
+# p ll.to_s
+# p ll.find(2)
+# p "here's ll's head #{ll.head}"
+# ll.tail_node
+# p "here's popped ll; #{ll.pop.inspect} "
+
 
 # ll.at(2) # should return the node at index 2.
 
