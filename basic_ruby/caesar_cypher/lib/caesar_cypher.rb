@@ -27,8 +27,8 @@ def cypher(string, factor)
   cyphered_array_alpha = []
 
   string_array.each do |item|
-    if item == ' '
-      cyphered_array_alpha << ' '
+    if item == ' ' || item.match(/[^a-zA-Z]/)
+      cyphered_array_alpha << item
     else
       cyphered_array_number = negative_corrected(ai_hash[item] - factor)
       cyphered_array_alpha << ai_hash.key(cyphered_array_number)
