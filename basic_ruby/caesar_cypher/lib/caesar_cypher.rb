@@ -1,8 +1,6 @@
 require 'pry-byebug'
 # Caesar Cypher Project
-
 # caesar_cipher("What a string!", 5)
-
 # should return=> "Bmfy f xywnsl!"
 
 
