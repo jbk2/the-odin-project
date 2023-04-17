@@ -1,5 +1,6 @@
 require 'pry-byebug'
 # Write full rspec tests for this
+
 class LinkedList
   attr_accessor :head
 
@@ -108,7 +109,7 @@ class LinkedList
     index.times do
       node = node.next_node
     end
-    puts "node at index #{index} is; #{node.inspect}"
+    # puts "node at index #{index} is; #{node.inspect}"
     return node
   end
 
