@@ -85,8 +85,7 @@ class LinkedList
     while node
       if node.next_node.nil?
         puts "this is my tail node value #{node.value}"
-        puts "my tail node's next_node is nil" if node.next_node.nil? 
-        # p node
+        puts "my tail node's next_node is nil"
         return node
       end
       node = node.next_node
@@ -103,11 +102,52 @@ class LinkedList
     puts "node at index #{index} is; #{node}"; p node;
   end
   
-  # def pop
-  # end
   
-  # def find(value)
+  def pop
+    return if head.nil?
+    current_node = head
+    current_node = current_node.next_node until current_node.next_node.next_node.nil?
+    current_node.next_node = nil
+    return current_node
+  end
+
+
+  #   while current_node
+  #     while current_node.next_node
+  #     end
+  #       current_node = nil
+  #       return
+  #     end
+  #   end
   # end
+
+  #   while current_node
+  #     # puts "here's current node before; #{current_node}"
+  #     current_node = current_node.next_node
+  #     # puts "here's current node after; #{current_node}"
+  #     if current_node.next_node.nil?
+  #       # puts "here's current node's next node; #{current_node.next_node}"
+  #       current_node = nil
+  #     end
+  #     p "inspecting current_node; #{current_node.inspect}"
+  #     return current_node
+  #   end
+  # end
+
+  def last_node?(node)
+    return true if node.next_node.nil?
+    false 
+  end
+  
+  def find(v)
+    counter = 0
+    node = head
+    until node.value == v  
+      node = node.next_node
+      counter += 1
+    end
+    return counter
+  end
   
   # def to_s
   # end
@@ -137,13 +177,22 @@ ll.prepend(13)
 
 ll.contains?(10)
 ll.contains?(20)
-ll.contains?(25)
 ll.contains?(30)
 ll.remove(10)
 ll.contains?(10)
 p ll.inspect
 
-ll.at(2) # should return the node at index 2.
+p ll.find(2)
+
+# p "here's ll's head #{ll.head}"
+
+# ll.tail_node
+
+# p "here's popped ll; #{ll.pop.inspect} "
+
+# p ll.inspect
+
+# ll.at(2) # should return the node at index 2.
 
 
 # ll.remove(25)
@@ -195,7 +244,7 @@ ll.at(2) # should return the node at index 2.
 # ll.contains?(5)
 # ll.contains?(15)
 # ll.contains?(6)
+# ll.contains?(6)
 
 # ll.prepend(23)
 # ll.contains?(23)
-# ll.contains?(6)
