@@ -1,6 +1,6 @@
 require 'pry-byebug'
 # Caesar Cypher Project
-# caesar_cipher("What a string!", 5)
+# caesar_cypher("What a string!", 5)
 # should return=> "Bmfy f xywnsl!"
 
 
@@ -21,23 +21,25 @@ def negative_corrected(number)
   end
 end
 
-def cipher(string, factor)
+def cypher(string, factor)
   string_array = string.downcase.split('')
   ai_hash = alpha_index_hash
-  ciphered_array_alpha = []
+  cyphered_array_alpha = []
 
   string_array.each do |item|
     if item == ' '
-      ciphered_array_alpha << ' '
+      cyphered_array_alpha << ' '
     else
-      ciphered_array_number = negative_corrected(ai_hash[item] - factor)
-      ciphered_array_alpha << ai_hash.key(ciphered_array_number)
+      cyphered_array_number = negative_corrected(ai_hash[item] - factor)
+      cyphered_array_alpha << ai_hash.key(cyphered_array_number)
     end
   end
-  puts ciphered_array_alpha.join
+  puts cyphered_array_alpha.join
 end
 
-# cipher('abcdz', 9)
+# cypher('abcdz', 9)
+
+# p alpha_index_hash
 
 ord_array = [] 
 
