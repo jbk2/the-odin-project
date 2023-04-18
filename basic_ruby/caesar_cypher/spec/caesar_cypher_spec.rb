@@ -16,7 +16,12 @@ describe "caesar_cypher" do
       expect {cypher("25*(1?!", 1)}.to output("25*(1?!\n").to_stdout
     end
 
-
+    it "works with a negative shift" do
+      expect{cypher("abcd", -4)}.to output("efgh\n").to_stdout
+    end
+    
+    it "works with a positive shift" do
+      expect{cypher("abcd", 4)}.to output("wxyz\n").to_stdout
+    end
   end
-
 end
