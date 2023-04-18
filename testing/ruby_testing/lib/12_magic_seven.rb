@@ -75,6 +75,6 @@ class MagicSeven
   end
 end
 
-# game = MagicSeven.new
-# game.play
-# game.display_result
+game = MagicSeven.new
+game.play
+game.display_result
