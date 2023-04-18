@@ -69,19 +69,19 @@ describe 'equality assignment' do
   let(:copy_cat) { amy }
   # Write a test that expresses each of the following statements.
 
-  # remove the 'x' before running this test
-  xit 'amy is eq to bob' do
+  it 'amy is eq to bob' do
+    expect(amy).to eq(bob)
   end
 
-  # remove the 'x' before running this test
-  xit 'amy is eql to bob' do
+  it 'amy is eql to bob' do
+    expect(amy).to eql(bob)
   end
 
-  # remove the 'x' before running this test
-  xit 'amy is not equal to bob' do
+  it 'amy is not equal to bob' do
+    expect(amy).not_to equal(bob)
   end
 
-  # remove the 'x' before running this test
-  xit 'copy_cat is equal to amy' do
+  it 'copy_cat is equal to amy' do
+    expect(copy_cat).to equal(amy)
   end
 end

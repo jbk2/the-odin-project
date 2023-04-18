@@ -52,18 +52,15 @@ describe Hash do
     }
   end
 
-  # remove the 'x' before running this test
-  xit 'is newer than 2015' do
-    # Write a test that verifies the above statement.
+  it 'is newer than 2015' do
+    expect(my_car[:year]).to be > 2015
   end
 
-  # remove the 'x' before running this test
-  xit 'has a parking camera' do
-    # Write a test that verifies the above statement.
+  it 'has a parking camera' do
+    expect(my_car[:parking_camera?]).to be true
   end
 
-  # remove the 'x' before running this test
-  xit 'does not have assisted steering' do
-    # Write a test that verifies the above statement.
+  it 'does not have assisted steering' do
+    expect(my_car[:assisted_steering?]).to be false``
   end
 end

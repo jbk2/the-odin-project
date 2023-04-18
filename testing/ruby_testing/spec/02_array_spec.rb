@@ -23,13 +23,6 @@ describe Array do
   end
 
   context 'when using predicate matchers' do
-    context 'when using the empty? predicate method' do
-      # A predicate method in Ruby ends with a ? and only returns true or false. 
-      it 'returns true' do
-        expect(subject.empty?).to eq true
-      end
-    end
-    
     # RSpec can leverage this to create predicate matchers for any predicate method.
     # https://web.archive.org/web/20230101143200/https://relishapp.com/rspec/rspec-expectations/docs/built-in-matchers/predicate-matchers
     it 'is empty' do
@@ -40,6 +33,13 @@ describe Array do
     # Look at the doc string that is auto-generated when this test is run
     # (in a terminal window).
     it { is_expected.to be_empty }
+
+    context 'when using the empty? predicate method' do
+      # A predicate method in Ruby ends with a ? and only returns true or false. 
+      it 'returns true' do
+        expect(subject.empty?).to eq true
+      end
+    end
   end
 
   context 'when a let variable is declared inside a context block' do
@@ -71,28 +71,26 @@ end
 # ASSIGNMENT
 describe Array do
   context 'when updating an implicit subject' do
-    # remove the 'x' before running this test
-    xit 'is empty' do
-      # Write a test to expect the subject to be empty.
+    it 'is empty' do
+      expect(subject).to be_empty
     end
 
-    # remove the 'x' before running this test
-    xit 'updates length to 1' do
+    it 'updates length to 1' do
       # Update the implicit subject to make this test pass.
+      subject << 1
       expect(subject.length).to eq(1)
     end
   end
 
   context 'when using one let variable on two tests' do
     # Make a let variable that will pass both tests.
-
-    # remove the 'x' before running this test
-    xit 'has length of 3' do
+    let(:lucky_numbers) {[10,10,22]}
+    
+    it 'has length of 3' do
       expect(lucky_numbers.length).to eq(3)
     end
 
-    # remove the 'x' before running this test
-    xit 'has sum of 42' do
+    it 'has sum of 42' do
       expect(lucky_numbers.sum).to eq(42)
     end
   end
