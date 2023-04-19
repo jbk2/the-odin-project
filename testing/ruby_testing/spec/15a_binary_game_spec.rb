@@ -130,17 +130,34 @@ describe BinaryGame do
 
     context 'when user inputs an incorrect value once, then a valid input' do
       before do
+        invalid_input = '11'
+        valid_input = '3'
+        allow(game_input).to receive(:gets).and_return(invalid_input, valid_input)
       end
-
-      xit 'completes loop and displays error message once' do
+    
+      it 'completes loop and displays error message once' do
+        min = game_input.instance_variable_get(:@minimum)
+        max = game_input.instance_variable_get(:@maximum)
+        error_message = "Input error! Please enter a number between #{min} or #{max}."
+        expect(game_input).to receive(:puts).with(error_message).once
+        game_input.player_input(min, max)
       end
     end
-
+    
     context 'when user inputs two incorrect values, then a valid input' do
       before do
+        invalid_input_1 = '11'
+        invalid_input_2 = '12'
+        valid_input = '3'
+        allow(game_input).to receive(:gets).and_return(invalid_input_1, invalid_input_2, valid_input)
       end
-
-      xit 'completes loop and displays error message twice' do
+      
+      it 'completes loop and displays error message twice' do
+        min = game_input.instance_variable_get(:@minimum)
+        max = game_input.instance_variable_get(:@maximum)
+        error_message = "Input error! Please enter a number between #{min} or #{max}."
+        expect(game_input).to receive(:puts).with(error_message).twice
+        game_input.player_input(min, max)
       end
     end
   end
@@ -152,16 +169,24 @@ describe BinaryGame do
   describe '#verify_input' do
     # Located inside #player_input (Looping Script Method)
     # Query Method -> Test the return value
-
     # Note: #verify_input will only return a number if it is between?(min, max)
-
+    subject(:game_input) { described_class.new(1, 10) }
+    let(:min) { game_input.instance_variable_get(:@minimum) }
+    let(:max) { game_input.instance_variable_get(:@maximum) }
+    
     context 'when given a valid input as argument' do
-      xit 'returns valid input' do
+      it 'returns valid input' do
+        input = 2
+        verified = game_input.verify_input(min, max, input)
+        expect(verified).to equal(2)
       end
     end
 
     context 'when given invalid input as argument' do
-      xit 'returns nil' do
+      it 'returns nil' do
+        input = 11
+        verified = game_input.verify_input(min, max, input)
+        expect(verified).to be_nil
       end
     end
   end
@@ -230,6 +255,14 @@ describe BinaryGame do
   describe '#maximum_guesses' do
     # Located inside #play_game (Public Script Method)
     # Query Method -> Test the return value
+    
+    context 'when game minimum and maximum is 1 and 8' do
+      subject(:game_eight) { described_class.new(1, 8) }
+      it 'returns 3' do
+        max = game_six_hundred.maximum_guesses
+        expect(max).to equal(3)
+      end
+    end
 
     context 'when game minimum and maximum is 1 and 10' do
       subject(:game_ten) { described_class.new(1, 10) }
@@ -253,9 +286,13 @@ describe BinaryGame do
 
     # Write a test for the following context.
     context 'when game minimum and maximum is 100 and 600' do
-      xit 'returns 9' do
+      subject(:game_six_hundred) { described_class.new(100, 600) }
+      it 'returns 9' do
+        max = game_six_hundred.maximum_guesses
+        expect(max).to equal(9)
       end
     end
+    
   end
 
   describe '#create_binary_search' do
@@ -311,7 +348,13 @@ describe BinaryGame do
 
     # Write a test for the following context.
     context 'when game_over? is false five times' do
-      xit 'calls display_turn_order five times' do
+      before do
+        allow(search_display).to receive(:game_over?).and_return(false, false, false, false, false, true)
+      end
+      
+      it 'calls display_turn_order five times' do
+        expect(game_display).to receive(:display_turn_order).with(search_display).exactly(5).times
+        game_display.display_binary_search(search_display)
       end
     end
   end
@@ -325,23 +368,34 @@ describe BinaryGame do
     # sends two command messages #make_guess and #update_range to the object
     # binary_search of class BinarySearch, and sends one command message to `self`
     #  by calling #display_guess.
-
+    
     # Create a new subject and an instance_double for BinarySearch.
+    subject(:game) { described_class.new(1, 10) }
+    let(:search) { instance_double(BinarySearch) }
 
     before do
       # You'll need to create a few method stubs.
+      allow(search).to receive(:make_guess)
+      allow(search).to receive(:game_over?)
+      allow(search).to receive(:update_range)
+      allow(game).to receive(:display_guess)
     end
 
     # Command Method -> Test the change in the observable state
-    xit 'increases guess_count by one' do
+    it 'increases guess_count by one' do
+      expect { game.display_turn_order(search) }.to change { game.instance_variable_get(:@guess_count) }.by(1) 
     end
 
     # Method with Outgoing Command -> Test that a message is sent
-    xit 'sends make_guess' do
+    it 'sends make_guess' do
+      expect(search).to receive(:make_guess)
+      game.display_turn_order(search)
     end
 
     # Method with Outgoing Command -> Test that a message is sent
-    xit 'sends update_range' do
+    it 'sends update_range' do
+      expect(search).to receive(:update_range)
+      game.display_turn_order(search)
     end
 
     # Using method expectations can be confusing. Stubbing the methods above
@@ -352,7 +406,6 @@ describe BinaryGame do
     # #display_turn_order. Uncomment the line at the bottom of this
     # paragraph, move it to the before hook, and run the tests.
     # All of the tests should continue to pass.
-    # allow(binary_search_turn).to receive(:game_over?)
 
     # Now, in the lib/15a_binary_game.rb file, comment out either line,
     # binary_search.make_guess or binary_search.update_range. Resave the file
