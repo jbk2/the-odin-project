@@ -1,4 +1,5 @@
 require 'pry-byebug'
+require_relative 'node'
 
 class Tree
   attr_accessor :root
@@ -14,6 +15,17 @@ class Tree
 
   def delete(value)
     @root = delete_rec(@root, value)
+  end
+
+  def insert(root = @root, value)
+    if value == root.value
+      puts "value already present"
+    elsif value < root.value
+      root.left ? insert(root.left, value) : root.left = Node.new(value)
+    elsif value > root.value
+      root.right ? insert(root.right, value) : root.right = Node.new(value)
+    end
+    return self
   end
   
   def present?(root = @root, value)
@@ -72,14 +84,15 @@ end
 
 # ____________________
 
-  # array = [1, 4, 7, 13, 65, 97]
+  array = [1, 4, 7, 13, 65, 97]
   # array_2 = Array.new(15) { rand(1..99) }
   # array_3 = [83, 65, 99, 36, 7, 90, 25, 95, 68, 39, 96, 13, 75, 89, 2]
-  # tree = Tree.build_balanced_tree(array)
+  tree = Tree.build_balanced_tree(array)
   # # tree = Tree.build_balanced_tree(array_2)
   # # tree = Tree.build_balanced_tree(array_3)
   # pp tree
-  # tree.nice_print(tree.root)
+  tree.nice_print(tree.root)
   # pp tree.delete(13)
-  # tree.nice_print(tree.root)
   # pp tree.present?(65)
+  tree.insert(70)
+  tree.nice_print(tree.root)

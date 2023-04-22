@@ -98,4 +98,34 @@ describe Tree do
     end
   end
 
+  describe '#insert' do
+    context 'when insert value is already present' do
+      it "prints a warning message" do
+        dupe_insert_result = tree.insert(7)
+        expect{ tree.insert(7) }.to output("value already present\n").to_stdout
+      end
+     
+      it "returns unaltered tree" do
+        dupe_insert_result = tree.insert(7)
+        expect(dupe_insert_result).to eq(tree)
+      end
+    end
+    
+    context 'when inserted value is > root.value' do
+      it "inserts it in root's right subtree" do
+        tree.insert(70)
+        expect(tree.present?(70)).to be(true)
+      end
+    end
+    
+    context 'when inserted value is < root.value' do
+      it "inserts it in root's left subtree" do
+        tree.insert(2)
+        # tree.insert(3)
+        tree.nice_print(tree.root)
+        expect(tree.present?(2)).to be(true)
+      end
+    end
+  end
+
 end
