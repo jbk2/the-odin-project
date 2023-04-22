@@ -1,4 +1,5 @@
 require_relative '../lib/tree.rb'
+require_relative '../lib/node.rb'
 
 describe Tree do
   let(:short_array) { [1, 4, 7, 13, 65, 97]}
@@ -15,10 +16,6 @@ describe Tree do
 
   describe '#build_balanced_tree' do
     context 'given an already sorted short array' do
-      # before do
-      #   tree.build_balanced_tree(short_array)
-      # end
-
       it "creates a root node with middle of array's value" do
         array_mid_val = (short_array.length - 1) / 2
         expect(tree.root.value). to eq(7)
@@ -41,11 +38,37 @@ describe Tree do
       end
     
       it "gives root's right Node's value as 65" do
-        # puts long_array
         expect(tree.root.right.value).to equal(65)
       end
     end
   end
+
+  describe '#present?()' do
+    context 'when value is present' do
+      it 'returns true if value is at root' do
+        result = tree.present?(7)
+        expect(result).to be(true)
+      end
+
+      it 'returns true if value is a child leaf node' do
+        result = tree.present?(97)
+        expect(result).to be(true)
+      end
+      
+      it 'returns true if value is a child of root with its own children' do
+        result = tree.present?(65)
+        expect(result).to be(true)
+      end
+    end
+
+    context 'when value is not present' do
+      it 'returns false' do
+        result = tree.present?(6)
+        expect(result).to be(false)
+      end
+    end
+  end
+
 
   describe '#delete(val)' do
     context 'when value is not present' do
@@ -55,12 +78,24 @@ describe Tree do
     end
     
     context 'when value is present' do
-      it 'deletes a leadf node leaving tree in correct order' do
+      it 'deletes a leaf node' do
+        tree.delete(13)
+        result = tree.present?(13)
+        expect(result).to be(false)
       end
+
       it 'deletes a node with one child, whilst leaving tree in correct order' do
+        tree.delete(1)
+        # tree.nice_print(tree.root)
+        expect(tree.present?(1)).to be(false)
       end
+      
       it 'deletes a node with two children whilst leaving tree in correct order' do
+        tree.delete(7)
+        # tree.nice_print(tree.root)
+        expect(tree.present?(7)).to be(false)
       end
     end
   end
+
 end
