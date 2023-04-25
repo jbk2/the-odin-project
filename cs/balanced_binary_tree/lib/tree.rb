@@ -17,29 +17,39 @@ class Tree
     @root = delete_rec(@root, value)
   end
 
-  def insert(root = @root, value)
-    if value == root.value
+  def insert(node = @root, value)
+    if value == node.value
       puts "value already present"
-    elsif value < root.value
-      root.left ? insert(root.left, value) : root.left = Node.new(value)
-    elsif value > root.value
-      root.right ? insert(root.right, value) : root.right = Node.new(value)
+    elsif value < node.value
+      node.left ? insert(node.left, value) : node.left = Node.new(value)
+    elsif value > node.value
+      node.right ? insert(node.right, value) : node.right = Node.new(value)
     end
     return self
   end
-  
-  
 
-  def find(root = @root, value)
-    if value == root.value
-      return root
-    elsif value < root.value
-      find(root.left, value)
-    elsif value > root.value
-      find(root.right, value)
+  def find(node = @root, value)
+    if value == node.value
+      return node
+    elsif node.left && value < node.value 
+      find(node.left, value)
+    elsif node.right && value > node.value
+      find(node.right, value)
     else
       return false
     end
+  end
+
+  def level_order(node = @root, queue = [], values = [])
+    # return values if node.nil?# : queue.append(node)
+    queue.append(node)
+    while queue.count > 0
+      current = queue.pop
+      values << current.value
+      queue.prepend(current.left) if current.left
+      queue.prepend(current.right) if current.right
+    end
+    return values
   end
   
   def nice_print(node, prefix = '', is_left = true)

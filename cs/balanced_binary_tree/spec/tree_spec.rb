@@ -151,6 +151,34 @@ describe Tree do
     end
     
     context 'when value is not present' do
+      it 'in root it returns false' do
+        result = tree.find(8)
+        expect(result).to be(false) # or below line to presence test using the present?() helper method
+        expect(tree.node_present?(8)).to be(false)
+      end
+      it 'in left subtree it returns false' do
+        result = tree.find(2)
+        expect(result).to be(false)
+      end
+      it 'in right subtree it returns false' do
+        result = tree.find(88)
+        expect(result).to be(false)
+      end
+    end
+  end
+
+  describe '#level_order' do
+    context 'without a block' do
+      it "it will return an array of each node's values" do
+        result = tree.level_order
+        level_order_array = [7, 1, 65, 4, 13, 97]
+        expect(result).to eq(level_order_array)
+      end
+    end
+
+    context "with a block" do
+      xit "yields each node to the block and updates node with block's output" do
+      end
     end
   end
 
