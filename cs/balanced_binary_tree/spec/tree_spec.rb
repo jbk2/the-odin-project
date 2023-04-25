@@ -6,9 +6,14 @@ include Helpers
 describe Tree do
   let(:short_array) { [1, 4, 7, 13, 65, 97]}
   let(:unsorted_array) { [1, 4, 7, 5, 65, 18, 97]}
-  let(:array_dups) { [1, 4, 7, 13, 65, 13, 7, 97]}
-  let(:long_array) { Array.new(50) { rand(1..999) } }
+  let(:duped_array) { [1, 4, 7, 13, 65, 13, 7, 97]}
+  let(:large_array) { [503, 237, 821, 75, 351, 630, 927, 37, 192, 257, 442, 567, 737, 879, 967,
+    8, 43, 97, 204, 239, 287, 932, 993, 12, 56, 106, 206, 249, 332, 423, 449, 472, 535, 628, 710] }
+  let(:level_order_array) { [351, 192, 630, 43, 239, 472, 879, 12, 75, 206, 257, 442, 535, 737,
+    932, 8, 37, 56, 97, 204, 237, 249, 287, 423, 449, 503, 567, 710, 821, 927, 967, 106, 332,
+    628, 993] }
   let(:tree) { Tree.build_balanced_tree(short_array) }
+  let(:large_tree) { Tree.build_balanced_tree(large_array) }
 
   it "a Tree instance can receieve #build_balanced_tree" do
     expect(tree).to receive(:build_balanced_tree)
@@ -39,6 +44,26 @@ describe Tree do
       end
     
       it "gives root's right Node's value as 65" do
+        expect(tree.root.right.value).to equal(65)
+      end
+    end
+
+    context 'given an unsorted array' do
+      let(:tree) { Tree.build_balanced_tree(unsorted_array) }
+      
+      it 'still builds a balanced tree' do
+        expect(tree.root.value).to equal(7)
+        expect(tree.root.left.value).to equal(4)
+        expect(tree.root.right.value).to equal(65)
+      end
+    end
+    
+    context 'given an array with duplicates' do
+      let(:tree) { Tree.build_balanced_tree(duped_array) }
+
+      it 'still builds a balanced tree' do
+        expect(tree.root.value).to equal(7)
+        expect(tree.root.left.value).to equal(1)
         expect(tree.root.right.value).to equal(65)
       end
     end
@@ -174,10 +199,18 @@ describe Tree do
         level_order_array = [7, 1, 65, 4, 13, 97]
         expect(result).to eq(level_order_array)
       end
+
+      it "it will return an array of each node's values even with a large array" do
+        result = large_tree.level_order
+        expect(result).to eq(level_order_array)
+      end
     end
 
     context "with a block" do
-      xit "yields each node to the block and updates node with block's output" do
+      it "yields each node to the block and updates node with block's output" do
+        result = tree.level_order.map(&2.method(:*))
+        level_order_array = [14, 2, 130, 8, 26, 194]
+        expect(result).to eq(level_order_array)
       end
     end
   end

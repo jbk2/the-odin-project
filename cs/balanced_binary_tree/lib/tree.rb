@@ -45,7 +45,7 @@ class Tree
     queue.append(node)
     while queue.count > 0
       current = queue.pop
-      values << current.value
+      block_given? ? values << yield(current.value) : values << current.value
       queue.prepend(current.left) if current.left
       queue.prepend(current.right) if current.right
     end
@@ -97,9 +97,11 @@ end
 # ____________________
 
   array = [1, 4, 7, 13, 65, 97]
+  large_array = [503, 237, 821, 75, 351, 630, 927, 37, 192, 257, 442, 567, 737, 879, 967,
+  8, 43, 97, 204, 239, 287, 932, 993, 12, 56, 106, 206, 249, 332, 423, 449, 472, 535, 628, 710]
   # array_2 = Array.new(15) { rand(1..99) }
   # array_3 = [83, 65, 99, 36, 7, 90, 25, 95, 68, 39, 96, 13, 75, 89, 2]
-  tree = Tree.build_balanced_tree(array)
+  tree = Tree.build_balanced_tree(large_array)
   # # tree = Tree.build_balanced_tree(array_2)
   # # tree = Tree.build_balanced_tree(array_3)
   # pp tree
