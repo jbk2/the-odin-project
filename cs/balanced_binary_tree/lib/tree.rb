@@ -28,13 +28,15 @@ class Tree
     return self
   end
   
-  def present?(root = @root, value)
+  
+
+  def find(root = @root, value)
     if value == root.value
-      return true 
-    elsif value < root.value && root.left
-      present?(root.left, value)
-    elsif value > root.value && root.right
-      present?(root.right, value)
+      return root
+    elsif value < root.value
+      find(root.left, value)
+    elsif value > root.value
+      find(root.right, value)
     else
       return false
     end

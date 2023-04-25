@@ -1,5 +1,7 @@
 require_relative '../lib/tree.rb'
 require_relative '../lib/node.rb'
+require_relative './support/helpers/helper_module.rb'
+include Helpers
 
 describe Tree do
   let(:short_array) { [1, 4, 7, 13, 65, 97]}
@@ -7,7 +9,6 @@ describe Tree do
   let(:array_dups) { [1, 4, 7, 13, 65, 13, 7, 97]}
   let(:long_array) { Array.new(50) { rand(1..999) } }
   let(:tree) { Tree.build_balanced_tree(short_array) }
-  
 
   it "a Tree instance can receieve #build_balanced_tree" do
     expect(tree).to receive(:build_balanced_tree)
@@ -46,24 +47,24 @@ describe Tree do
   describe '#present?()' do
     context 'when value is present' do
       it 'returns true if value is at root' do
-        result = tree.present?(7)
+        result = tree.node_present?(7)
         expect(result).to be(true)
       end
 
       it 'returns true if value is a child leaf node' do
-        result = tree.present?(97)
+        result = tree.node_present?(97)
         expect(result).to be(true)
       end
       
       it 'returns true if value is a child of root with its own children' do
-        result = tree.present?(65)
+        result = tree.node_present?(65)
         expect(result).to be(true)
       end
     end
 
     context 'when value is not present' do
       it 'returns false' do
-        result = tree.present?(6)
+        result = tree.node_present?(6)
         expect(result).to be(false)
       end
     end
@@ -80,20 +81,20 @@ describe Tree do
     context 'when value is present' do
       it 'deletes a leaf node' do
         tree.delete(13)
-        result = tree.present?(13)
+        result = tree.node_present?(13)
         expect(result).to be(false)
       end
 
       it 'deletes a node with one child, whilst leaving tree in correct order' do
         tree.delete(1)
         # tree.nice_print(tree.root)
-        expect(tree.present?(1)).to be(false)
+        expect(tree.node_present?(1)).to be(false)
       end
       
       it 'deletes a node with two children whilst leaving tree in correct order' do
         tree.delete(7)
         # tree.nice_print(tree.root)
-        expect(tree.present?(7)).to be(false)
+        expect(tree.node_present?(7)).to be(false)
       end
     end
   end
@@ -114,7 +115,7 @@ describe Tree do
     context 'when inserted value is > root.value' do
       it "inserts it in root's right subtree" do
         tree.insert(70)
-        expect(tree.present?(70)).to be(true)
+        expect(tree.node_present?(70)).to be(true)
       end
     end
     
@@ -123,8 +124,33 @@ describe Tree do
         tree.insert(2)
         # tree.insert(3)
         tree.nice_print(tree.root)
-        expect(tree.present?(2)).to be(true)
+        expect(tree.node_present?(2)).to be(true)
       end
+    end
+  end
+
+  describe '#find()' do
+    context 'when value is present' do
+      it 'returns a node object' do
+        result = tree.find(7)
+        expect(result).to be_a(Node)
+      end
+      
+      it 'can find and return a root value' do
+        result = tree.find(7)
+        expect(result).to have_attributes(value: 7)
+      end
+      it 'can find and return a child node from the left tree' do
+        result = tree.find(1)
+        expect(result).to have_attributes(value: 1)
+      end
+      it 'can find and return a child node from the right tree' do
+        result = tree.find(97)
+        expect(result).to have_attributes(value: 97)
+      end
+    end
+    
+    context 'when value is not present' do
     end
   end
 
