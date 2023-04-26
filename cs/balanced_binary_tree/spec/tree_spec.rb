@@ -212,6 +212,83 @@ describe Tree do
         level_order_array = [14, 2, 130, 8, 26, 194]
         expect(result).to eq(level_order_array)
       end
+      
+      it "yields each node to the block and updates node with block's output" do
+        # divmod4 = ->(n) { n.divmod(4) } # could create a lambda
+        # result = tree.level_order(&divmod4) #and pass in lambda instead of an explicit block {} argument 
+        result = tree.level_order { |value| value.divmod(4) }
+        level_order_array = [[1, 3], [0, 1], [16, 1], [1, 0], [3, 1], [24, 1]]
+        expect(result).to eq(level_order_array)
+      end
+    end
+  end
+  
+  describe '#pre_order' do
+    context 'without a block' do
+      pre_order_array = [7, 1, 4, 65, 13, 97]
+      
+      it "it will return an array of correctly pre-ordered values" do
+        result = tree.pre_order
+        expect(result).to eq(pre_order_array)
+      end
+
+      xit "it will return an array of correctly pre-ordered values, even with a large array" do
+        result = large_tree.pre_order
+        expect(result).to eq(pre_order_array)
+      end
+    end
+
+    context "with a block" do
+      xit "returns block output values ib correct pre-order" do
+        # result = tree.level_order( { *2 } )
+        expect(result).to eq(level_order_array)
+      end
+    end
+  end
+  
+  describe '#post_order' do
+    context 'without a block' do
+      post_order_array = [1, 4, 65, 13, 97, 7]
+
+      xit "it will return an array of correctly post-ordered values" do
+        result = tree.post_order
+        expect(result).to eq(post_order_array)
+      end
+
+      xit "it will return an array of correctly post-ordered values, even with a large array" do
+        result = large_tree.post_order
+        expect(result).to eq(post_order_array)
+      end
+    end
+
+    context "with a block" do
+      xit "returns block output values in correct post-order" do
+        # result = tree.post_order( { *2 } )
+        expect(result).to eq(post_order_array)
+      end
+    end
+  end
+
+  describe '#in_order' do
+    context 'without a block' do
+      in_order_array = [1, 4, 7, 65, 13, 97]
+
+      xit "it will return an array of correctly in-ordered values" do
+        result = tree.in_order
+        expect(result).to eq(in_order_array)
+      end
+
+      xit "it will return an array of correctly in-ordered values, even with a large array" do
+        result = large_tree.in_order
+        expect(result).to eq(in_order_array)
+      end
+    end
+
+    context "with a block" do
+      xit "returns block output values in correct in-order" do
+        # result = tree.in_order( { *2 } )
+        expect(result).to eq(in_order_array)
+      end
     end
   end
 

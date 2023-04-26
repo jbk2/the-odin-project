@@ -40,6 +40,7 @@ class Tree
     end
   end
 
+# Breadth first: level order traversal
   def level_order(node = @root, queue = [], values = [])
     # return values if node.nil?# : queue.append(node)
     queue.append(node)
@@ -51,6 +52,18 @@ class Tree
     end
     return values
   end
+
+# Depth first - In-order traversal, <left> <root> <right>, LDR L(eft) D(ata) R(ight)
+  # def in_order
+  # end
+
+# Depth first - Pre-order traversal, <root> <left> <right>, DLR D(ata) L(eft) R(ight)
+  # def pre_order
+  # end
+	
+# Depth first = Post-order traversal, <left> <right> <root>, LRD L(eft) R(ight) D(ata)
+  # def post_order
+  # end
   
   def nice_print(node, prefix = '', is_left = true)
     nice_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -101,7 +114,7 @@ end
   8, 43, 97, 204, 239, 287, 932, 993, 12, 56, 106, 206, 249, 332, 423, 449, 472, 535, 628, 710]
   # array_2 = Array.new(15) { rand(1..99) }
   # array_3 = [83, 65, 99, 36, 7, 90, 25, 95, 68, 39, 96, 13, 75, 89, 2]
-  tree = Tree.build_balanced_tree(large_array)
+  tree = Tree.build_balanced_tree(array)
   # # tree = Tree.build_balanced_tree(array_2)
   # # tree = Tree.build_balanced_tree(array_3)
   # pp tree
