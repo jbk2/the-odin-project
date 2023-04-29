@@ -147,8 +147,6 @@ describe Tree do
     context 'when inserted value is < root.value' do
       it "inserts it in root's left subtree" do
         tree.insert(2)
-        # tree.insert(3)
-        tree.nice_print(tree.root)
         expect(tree.node_present?(2)).to be(true)
       end
     end
@@ -226,70 +224,148 @@ describe Tree do
   describe '#pre_order' do
     context 'without a block' do
       pre_order_array = [7, 1, 4, 65, 13, 97]
-      
-      it "it will return an array of correctly pre-ordered values" do
-        result = tree.pre_order
-        expect(result).to eq(pre_order_array)
+      pre_order_large_array = [351, 192, 43, 12, 8, 37, 75, 56, 97, 106, 239, 206, 204, 237, 257,
+        249, 287, 332, 630, 472, 442, 423, 449, 535, 503, 567, 628, 879, 737, 710, 821, 932, 927,
+        967, 993]
+        
+        it "it will return an array of correctly pre-ordered values" do
+          result = tree.pre_order
+          expect(result).to eq(pre_order_array)
       end
-
-      xit "it will return an array of correctly pre-ordered values, even with a large array" do
+      
+      it "it will return an array of correctly pre-ordered values, even with a large array" do
         result = large_tree.pre_order
-        expect(result).to eq(pre_order_array)
+        expect(result).to eq(pre_order_large_array)
       end
     end
-
+    
     context "with a block" do
-      xit "returns block output values ib correct pre-order" do
-        # result = tree.level_order( { *2 } )
-        expect(result).to eq(level_order_array)
+      pre_order_array_doubled = [14, 2, 8, 130, 26, 194]
+      
+      it "returns block output values ib correct pre-order" do
+        result = tree.pre_order { |value| value * 2 } 
+        expect(result).to eq(pre_order_array_doubled)
       end
     end
   end
   
+  describe '#in_order' do
+    context 'without a block' do
+      in_order_array = [1, 4, 7, 13, 65, 97]
+      in_order_large_array = [8, 12, 37, 43, 56, 75, 97, 106, 192, 204, 206, 237, 239, 249, 257,
+      287, 332, 351, 423, 442, 449, 472, 503, 535, 567, 628, 630, 710, 737, 821, 879, 927, 932,
+      967, 993]
+      
+      it "will return an array of correctly in-ordered values" do
+        result = tree.in_order
+        expect(result).to eq(in_order_array)
+      end
+      
+      it "will return an array of correctly in-ordered values, even with a large array" do
+        result = large_tree.in_order
+        expect(result).to eq(in_order_large_array)
+      end
+    end
+    
+    context "with a block" do
+      it "returns block output values in correct in-order" do
+        in_order_array_doubled = [2, 8, 14, 26, 130, 194]
+        result = tree.in_order { |values| values * 2 } 
+        expect(result).to eq(in_order_array_doubled)
+      end
+    end
+  end
+
   describe '#post_order' do
     context 'without a block' do
-      post_order_array = [1, 4, 65, 13, 97, 7]
+      post_order_array = [4, 1, 13, 97, 65, 7]
+      post_order_large_array = [8, 37, 12, 56, 106, 97, 75, 43, 204, 237, 206, 249, 332, 287,
+        257, 239, 192, 423, 449, 442, 503, 628, 567, 535, 472, 710, 821, 737, 927, 993, 967, 932,
+        879, 630, 351]
 
-      xit "it will return an array of correctly post-ordered values" do
+      it "it will return an array of correctly post-ordered values" do
         result = tree.post_order
         expect(result).to eq(post_order_array)
       end
 
-      xit "it will return an array of correctly post-ordered values, even with a large array" do
+      it "it will return an array of correctly post-ordered values, even with a large array" do
         result = large_tree.post_order
-        expect(result).to eq(post_order_array)
+        expect(result).to eq(post_order_large_array)
       end
     end
 
     context "with a block" do
-      xit "returns block output values in correct post-order" do
-        # result = tree.post_order( { *2 } )
-        expect(result).to eq(post_order_array)
+      it "returns block output values in correct post-order" do
+        post_order_array_doubled = [8, 2, 26, 194, 130, 14]
+        result = tree.post_order { |v| v * 2 } 
+        expect(result).to eq(post_order_array_doubled)
       end
     end
   end
 
-  describe '#in_order' do
-    context 'without a block' do
-      in_order_array = [1, 4, 7, 65, 13, 97]
+  # describe '#height' do
+  #   context 'when value is not present' do
+  #     it 'prints a statement declaring not value not present' do
+  #       expect { tree.height(6) }.to output("value not present\n").to_stdout
+  #     end 
+  #   end
 
-      xit "it will return an array of correctly in-ordered values" do
-        result = tree.in_order
-        expect(result).to eq(in_order_array)
-      end
+    # context 'when value is present' do
+    #   xit 'returns the height of the value' do
+    #     result = tree.height(7)
+    #     expect(result).to equal(2)
+    #   end 
+    # end
+  # end
+  
+  describe '#depth' do
+    context 'when value is present in left subtree' do
+      it 'returns depth 0 given a node value at level 0' do
+        result = tree.depth(7)
+        expect(result).to eq(0)
+      end 
+      
+      it 'returns depth 1 given a node valye at level 1' do
+        result = tree.depth(1)
+        expect(result).to eq(1)
+      end 
+      
+      it 'returns depth 2 given a node valye at level 2' do
+        result = tree.depth(4)
+        expect(result).to eq(2)
+      end 
 
-      xit "it will return an array of correctly in-ordered values, even with a large array" do
-        result = large_tree.in_order
-        expect(result).to eq(in_order_array)
-      end
+      it 'returns depth 2 given a node valye at level 2' do
+        result = large_tree.depth(8)
+        expect(result).to eq(4)
+      end 
     end
+    
+    context 'when value is present in right subtree' do
+      it 'returns depth 1 given a node valye at level 1' do
+        result = tree.depth(65)
+        expect(result).to eq(1)
+      end 
+      
+      it 'returns depth 2 given a node valye at level 2' do
+        result = tree.depth(13)
+        expect(result).to eq(2)
+      end 
 
-    context "with a block" do
-      xit "returns block output values in correct in-order" do
-        # result = tree.in_order( { *2 } )
-        expect(result).to eq(in_order_array)
+      it 'returns depth 3 given a node valye at level 3' do
+        result = large_tree.depth(932)
+        expect(result).to eq(3)
       end
+      
+      it 'returns depth 4 given a node valye at level 4' do
+        result = large_tree.depth(967)
+        expect(result).to eq(4)
+      end 
+      
+      it 'returns depth 5 given a node valye at level 5' do
+        result = large_tree.depth(993)
+        expect(result).to eq(5)
+      end 
     end
   end
-
 end
