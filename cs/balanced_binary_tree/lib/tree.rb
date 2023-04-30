@@ -1,4 +1,3 @@
-require 'pry-byebug'
 require_relative 'node'
 
 class Tree
@@ -18,8 +17,8 @@ class Tree
 
     array_mid_index = (array.length - 1) / 2
     node = Node.new(array[array_mid_index])
-    node.left = build_balanced_tree(array.slice(0, array_mid_index))
-    node.right = build_balanced_tree(array[(array_mid_index + 1)..(array.length - 1)])
+    node.left = build_tree(array.slice(0, array_mid_index))
+    node.right = build_tree(array[(array_mid_index + 1)..(array.length - 1)])
     return node
   end
   
@@ -117,19 +116,28 @@ class Tree
 
 # Write a #height method which accepts a node and returns its height. Height is defined as
 # the number of edges in longest path from a given node to a leaf node.
-  def height(level = 0, node)
+  def height(node, level = 0)
     return level if node.nil? || (node.left.nil? && node.right.nil?)
     level += 1
-    [height(level, node.left), height(level, node.right) ].max
+    ([height(node.left, level), height(node.right, level) ].max)
   end
   
 # Write a #balanced? method which checks if the tree is balanced. A balanced tree is one
 # where the difference between heights of left subtree and right subtree of every
 # node is not more than 1.
+  def balanced?(root = @root)
+    left_height = height(root.left)
+    right_height = height(root.right)
+    difference = left_height - right_height
+    difference < 2 && difference > -2 ? true : false
+  end
 
 # Write a #rebalance method which rebalances an unbalanced tree. Tip: You’ll want
 # to use a traversal method to provide a new array to the #build_tree method.
-
+  def rebalance(root = @root)
+    values_array = self.in_order
+    self.root = build_tree(values_array)
+  end
 
   def nice_print(node, prefix = '', is_left = true)
     nice_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
@@ -180,14 +188,5 @@ end
   8, 43, 97, 204, 239, 287, 932, 993, 12, 56, 106, 206, 249, 332, 423, 449, 472, 535, 628, 710]
   # array_2 = Array.new(15) { rand(1..99) }
   # array_3 = [83, 65, 99, 36, 7, 90, 25, 95, 68, 39, 96, 13, 75, 89, 2]
-  # tree = Tree.new(array)
   tree = Tree.new(array)
-  # tree = Tree.new(large_array)
-  # # tree = Tree.new(array_2)
-  # # tree = Tree.new(array_3)
-  # pp tree
   tree.nice_print(tree.root)
-  # pp tree.delete(13)
-  # pp tree.present?(65)
-  # tree.insert(70)
-  # tree.nice_print(tree.root)

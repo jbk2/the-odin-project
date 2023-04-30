@@ -370,8 +370,8 @@ describe Tree do
       end
     end
   end
-# ----------------------------------------------------------------------------
 
+# ----------------------------------------------------------------------------
   describe '#height()' do
     context 'when node is a leaf' do
       it 'returns height 0' do
@@ -417,6 +417,51 @@ describe Tree do
         result = large_tree.height(node_351)
         expect(result).to eq(5)
       end
+    end
+  end
+
+# ----------------------------------------------------------------------------
+  describe '#balanced?' do
+  context 'when a tree is balanced' do
+    it 'returns true' do
+      result = tree.balanced?
+      expect(result).to be(true)
+    end
+    
+    it 'returns true' do
+      result = large_tree.balanced?
+      expect(result).to be(true)
+    end
+  end
+  
+  context 'when a tree is unbalanced' do
+    it 'with larger left subtree than right returns false' do
+        %w(70 71 72).each { |n| large_tree.insert(n.to_i) }
+        # large_tree.nice_print(large_tree.root)
+        result = large_tree.balanced?
+        expect(result).to be(false)
+      end
+      
+      it 'with larger right subtree than right returns false' do
+        %w(8 37 56 97 106 204 237 249 332 287).each { |n| large_tree.delete(n.to_i) }
+        result = large_tree.balanced?
+        expect(result).to be(false)
+      end
+    end
+  end
+  
+# ----------------------------------------------------------------------------
+  describe '#rebalance' do
+    it 'takes an unbalanced tree and rebalances it' do
+      %w(70 71 72).each { |n| tree.insert(n.to_i) }
+      tree.rebalance
+      expect(tree.balanced?).to be(true)
+    end
+    
+    it 'takes an unbalanced tree and rebalances it' do
+      %w(57 58 59 70 71 72 74 75).each { |n| large_tree.insert(n.to_i) }
+      large_tree.rebalance
+      expect(tree.balanced?).to be(true)
     end
   end
 
