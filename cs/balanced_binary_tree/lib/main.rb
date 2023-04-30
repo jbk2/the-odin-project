@@ -1,6 +1,7 @@
 require_relative 'node'
 require_relative 'tree'
 
+# In console run "ruby lib/main.rb" to see classes created and methods illustrated in console.
 puts "\e[1m\e[34m1.\e[0m Create a binary search tree from an array of random numbers (Array.new(15) { rand(1..100) })"
 array = Array.new(15) { rand(1..100) }
 tree = Tree.new(array)
