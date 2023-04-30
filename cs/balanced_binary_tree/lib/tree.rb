@@ -5,18 +5,26 @@ class Tree
   attr_accessor :root
 
   def initialize(array)
-    @root = Node.build_balanced_tree(array)
+    @root = build_tree(array)
   end
   
-  def self.build_balanced_tree(array)
-    tree = Tree.new(array)
-    return tree
-  end
+# Write a #build_tree method which takes an array of data (e.g. [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+# and turns it into a balanced binary tree full of Node objects appropriately placed
+# (don’t forget to sort and remove duplicates!).
+# The #build_tree method should return the level-0 root node.
+  def build_tree(array)
+    array = array.sort.uniq
+    return if array.empty?
 
-  def delete(value)
-    @root = delete_rec(@root, value)
+    array_mid_index = (array.length - 1) / 2
+    node = Node.new(array[array_mid_index])
+    node.left = build_balanced_tree(array.slice(0, array_mid_index))
+    node.right = build_balanced_tree(array[(array_mid_index + 1)..(array.length - 1)])
+    return node
   end
-
+  
+# Write an #insert and #delete method which accepts a value to insert/delete
+# (you’ll have to deal with several cases for delete such as when a node has children or not).
   def insert(root = @root, value)
     if value == root.value
       puts "value already present"
@@ -28,6 +36,11 @@ class Tree
     return self
   end
 
+  def delete(value)
+    @root = delete_rec(@root, value)
+  end
+
+# Write a #find method which accepts a value and returns the node with the given value.
   def find(root = @root, value)
     if value == root.value
       return root
@@ -40,6 +53,9 @@ class Tree
     end
   end
 
+# Write a #level_order method which accepts a block. This method should traverse the tree
+# in breadth-first level order and yield each node to the provided block.
+#  The method should return an array of values if no block is given.
 # Breadth first: level order traversal
   def level_order(root = @root, queue = [], values = [])
     # return values if root.nil?# : queue.append(root)
@@ -52,6 +68,10 @@ class Tree
     end
     return values
   end
+
+# Write #inorder, #preorder, and #postorder methods that accepts a block. Each method should
+# traverse the tree in their respective depth-first order and yield each node to the provided block.
+# The methods should return an array of values if no block is given.
 
 # Depth first - Pre-order traversal, <root> <left> <right>, DLR D(ata) L(eft) R(ight)
   def pre_order(root = @root, values = [], &block)
@@ -81,17 +101,36 @@ class Tree
     block_given? ? values << block.call(root.value): values << root.value
   end
 
-  def depth(root = @root, level = 0, value)
-    return -1 if root.nil?
-    if root.value == value
+# Write a #depth method which accepts a node and returns its depth. Depth is defined as the
+# number of edges in path from a given node to the tree’s root node.
+  def depth(root = @root, level = 0, node)
+    if node == root
       return level
-    elsif root.left && value < root.value
-      depth(root.left, level += 1, value)
-    elsif root.right && value > root.value
-      depth(root.right, level += 1, value)
+    elsif root.left && node.value < root.value
+      depth(root.left, level += 1, node)
+    elsif root.right && node.value > root.value
+      depth(root.right, level += 1, node)
+    else
+      return -1
     end
   end
+
+# Write a #height method which accepts a node and returns its height. Height is defined as
+# the number of edges in longest path from a given node to a leaf node.
+  def height(level = 0, node)
+    return level if node.nil? || (node.left.nil? && node.right.nil?)
+    level += 1
+    [height(level, node.left), height(level, node.right) ].max
+  end
   
+# Write a #balanced? method which checks if the tree is balanced. A balanced tree is one
+# where the difference between heights of left subtree and right subtree of every
+# node is not more than 1.
+
+# Write a #rebalance method which rebalances an unbalanced tree. Tip: You’ll want
+# to use a traversal method to provide a new array to the #build_tree method.
+
+
   def nice_print(node, prefix = '', is_left = true)
     nice_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── ' }#{node.value}"
@@ -141,10 +180,11 @@ end
   8, 43, 97, 204, 239, 287, 932, 993, 12, 56, 106, 206, 249, 332, 423, 449, 472, 535, 628, 710]
   # array_2 = Array.new(15) { rand(1..99) }
   # array_3 = [83, 65, 99, 36, 7, 90, 25, 95, 68, 39, 96, 13, 75, 89, 2]
-  # tree = Tree.build_balanced_tree(array)
-  tree = Tree.build_balanced_tree(large_array)
-  # # tree = Tree.build_balanced_tree(array_2)
-  # # tree = Tree.build_balanced_tree(array_3)
+  # tree = Tree.new(array)
+  tree = Tree.new(array)
+  # tree = Tree.new(large_array)
+  # # tree = Tree.new(array_2)
+  # # tree = Tree.new(array_3)
   # pp tree
   tree.nice_print(tree.root)
   # pp tree.delete(13)

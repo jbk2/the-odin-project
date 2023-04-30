@@ -12,14 +12,14 @@ describe Tree do
   let(:level_order_array) { [351, 192, 630, 43, 239, 472, 879, 12, 75, 206, 257, 442, 535, 737,
     932, 8, 37, 56, 97, 204, 237, 249, 287, 423, 449, 503, 567, 710, 821, 927, 967, 106, 332,
     628, 993] }
-  let(:tree) { Tree.build_balanced_tree(short_array) }
-  let(:large_tree) { Tree.build_balanced_tree(large_array) }
+  let(:tree) { Tree.new(short_array) }
+  let(:large_tree) { Tree.new(large_array) }
 
   it "a Tree instance can receieve #build_balanced_tree" do
     expect(tree).to receive(:build_balanced_tree)
     tree.build_balanced_tree
   end
-
+# ----------------------------------------------------------------------------
   describe '#build_balanced_tree' do
     context 'given an already sorted short array' do
       it "creates a root node with middle of array's value" do
@@ -49,7 +49,7 @@ describe Tree do
     end
 
     context 'given an unsorted array' do
-      let(:tree) { Tree.build_balanced_tree(unsorted_array) }
+      let(:tree) { Tree.new(unsorted_array) }
       
       it 'still builds a balanced tree' do
         expect(tree.root.value).to equal(7)
@@ -59,7 +59,7 @@ describe Tree do
     end
     
     context 'given an array with duplicates' do
-      let(:tree) { Tree.build_balanced_tree(duped_array) }
+      let(:tree) { Tree.new(duped_array) }
 
       it 'still builds a balanced tree' do
         expect(tree.root.value).to equal(7)
@@ -68,7 +68,7 @@ describe Tree do
       end
     end
   end
-
+# ----------------------------------------------------------------------------
   describe '#present?()' do
     context 'when value is present' do
       it 'returns true if value is at root' do
@@ -94,9 +94,8 @@ describe Tree do
       end
     end
   end
-
-
-  describe '#delete(val)' do
+# ----------------------------------------------------------------------------
+  describe '#delete()' do
     context 'when value is not present' do
       it "returns the unchanged tree" do
         expect(tree.delete(2)).to eq(tree.root) 
@@ -123,8 +122,8 @@ describe Tree do
       end
     end
   end
-
-  describe '#insert' do
+# ----------------------------------------------------------------------------
+  describe '#insert()' do
     context 'when insert value is already present' do
       it "prints a warning message" do
         dupe_insert_result = tree.insert(7)
@@ -151,7 +150,7 @@ describe Tree do
       end
     end
   end
-
+# ----------------------------------------------------------------------------
   describe '#find()' do
     context 'when value is present' do
       it 'returns a node object' do
@@ -189,7 +188,7 @@ describe Tree do
       end
     end
   end
-
+# ----------------------------------------------------------------------------
   describe '#level_order' do
     context 'without a block' do
       it "it will return an array of each node's values" do
@@ -220,7 +219,7 @@ describe Tree do
       end
     end
   end
-  
+# ---------------------------------------------------------------------------- 
   describe '#pre_order' do
     context 'without a block' do
       pre_order_array = [7, 1, 4, 65, 13, 97]
@@ -248,7 +247,7 @@ describe Tree do
       end
     end
   end
-  
+# ----------------------------------------------------------------------------
   describe '#in_order' do
     context 'without a block' do
       in_order_array = [1, 4, 7, 13, 65, 97]
@@ -275,7 +274,7 @@ describe Tree do
       end
     end
   end
-
+# ----------------------------------------------------------------------------
   describe '#post_order' do
     context 'without a block' do
       post_order_array = [4, 1, 13, 97, 65, 7]
@@ -302,70 +301,123 @@ describe Tree do
       end
     end
   end
+# ----------------------------------------------------------------------------
+  describe '#depth()' do
 
-  # describe '#height' do
-  #   context 'when value is not present' do
-  #     it 'prints a statement declaring not value not present' do
-  #       expect { tree.height(6) }.to output("value not present\n").to_stdout
-  #     end 
-  #   end
-
-    # context 'when value is present' do
-    #   xit 'returns the height of the value' do
-    #     result = tree.height(7)
-    #     expect(result).to equal(2)
-    #   end 
+    # context 'when value is not present' do
+    #   it 'returns -1' do
+    #     node_6 = tree.find(6)
+    #     result = tree.depth(node_6)
+    #     expect(result).to eq(-1)
+    #   end
     # end
-  # end
-  
-  describe '#depth' do
+
     context 'when value is present in left subtree' do
       it 'returns depth 0 given a node value at level 0' do
-        result = tree.depth(7)
+        node_7 = tree.find(7)
+        result = tree.depth(node_7)
         expect(result).to eq(0)
-      end 
+      end
       
-      it 'returns depth 1 given a node valye at level 1' do
-        result = tree.depth(1)
+      it 'returns depth 1 given a node value at level 1' do
+        node_1 = tree.find(1)
+        result = tree.depth(node_1)
         expect(result).to eq(1)
-      end 
+      end
       
-      it 'returns depth 2 given a node valye at level 2' do
-        result = tree.depth(4)
+      it 'returns depth 2 given a node value at level 2' do
+        node_4 = tree.find(4)
+        result = tree.depth(node_4)
         expect(result).to eq(2)
-      end 
+      end
 
-      it 'returns depth 2 given a node valye at level 2' do
-        result = large_tree.depth(8)
+      it 'returns depth 2 given a node value at level 2' do
+        node_8 = large_tree.find(8)
+        result = large_tree.depth(node_8)
         expect(result).to eq(4)
-      end 
+      end
     end
     
     context 'when value is present in right subtree' do
-      it 'returns depth 1 given a node valye at level 1' do
-        result = tree.depth(65)
+      it 'returns depth 1 given a node value at level 1' do
+        node_65 = tree.find(65)
+        result = tree.depth(node_65)
         expect(result).to eq(1)
-      end 
+      end
       
-      it 'returns depth 2 given a node valye at level 2' do
-        result = tree.depth(13)
+      it 'returns depth 2 given a node value at level 2' do
+        node_13 = tree.find(13)
+        result = tree.depth(node_13)
         expect(result).to eq(2)
-      end 
+      end
 
-      it 'returns depth 3 given a node valye at level 3' do
-        result = large_tree.depth(932)
+      it 'returns depth 3 given a node value at level 3' do
+        node_932 = large_tree.find(932)
+        result = large_tree.depth(node_932)
         expect(result).to eq(3)
       end
       
-      it 'returns depth 4 given a node valye at level 4' do
-        result = large_tree.depth(967)
+      it 'returns depth 4 given a node value at level 4' do
+        node_967 = large_tree.find(967)
+        result = large_tree.depth(node_967)
         expect(result).to eq(4)
-      end 
+      end
       
-      it 'returns depth 5 given a node valye at level 5' do
-        result = large_tree.depth(993)
+      it 'returns depth 5 given a node value at level 5' do
+        node_993 = large_tree.find(993)
+        result = large_tree.depth(node_993)
         expect(result).to eq(5)
-      end 
+      end
     end
   end
+# ----------------------------------------------------------------------------
+
+  describe '#height()' do
+    context 'when node is a leaf' do
+      it 'returns height 0' do
+        node_4 = tree.find(4)
+        result = tree.height(node_4)
+        expect(result).to eq(0)
+      end
+      
+      it 'returns depth 1 given a node 1 higher than the lowest leaf level' do
+        node_1 = tree.find(1)
+        result = tree.height(node_1)
+        expect(result).to eq(1)
+      end
+      
+      it 'returns depth 2 given a node 2 higher than the lowest leaf level' do
+        node_7 = tree.find(7)
+        result = tree.height(node_7)
+        expect(result).to eq(2)
+      end
+
+      it 'returns depth 4 given a node 4 higher than the lowest leaf level' do
+        node_192 = large_tree.find(192)
+        result = large_tree.height(node_192)
+        expect(result).to eq(4)
+      end
+    end
+    
+    context 'when value is present in right subtree' do
+      it 'returns height 0 given a leaf node' do
+        node_13 = tree.find(13)
+        result = tree.height(node_13)
+        expect(result).to eq(0)
+      end
+      
+      it 'returns depth 1 given a node 1 higher than the lowest leaf level' do
+        node_65 = tree.find(65)
+        result = tree.height(node_65)
+        expect(result).to eq(1)
+      end
+
+      it 'returns depth 5 given a node 5 higher than the lowest leaf level' do
+        node_351 = large_tree.find(351)
+        result = large_tree.height(node_351)
+        expect(result).to eq(5)
+      end
+    end
+  end
+
 end
