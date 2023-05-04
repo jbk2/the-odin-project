@@ -57,10 +57,6 @@ class Board
     check(valid_coords_queue, end_coords)
   end
 
-  def check_coords_presence(valid_coords, desired_coord)
-    valid.coords.include?(desired_coord)
-  end
-
   def create_grid(dimension)
     grid = []
     dimension.times { grid << Array.new(8, nil) }
