@@ -10,11 +10,11 @@ You can think of the board as having 2-dimensional coordinates. Your function wo
 - knight_moves([0,0],[3,3]) == [[0,0],[1,2],[3,3]]
 - knight_moves([3,3],[0,0]) == [[3,3],[1,2],[0,0]]
 
-## Architecture
+## Design
 
 - Board model – _:public_methods_; [:x_size, :y_size, :moves_path, :add_knight, :knight, :grid_array, :grid_position, :pull_first_value, :grid_array=, :create_grid, :coords_within_bounds?, :valid_knights_moves, :knight_moves, :check, :position_found?]
 
-- Knight model – _:private_methods_; [:x, :y, :all_knights_moves]
+- Knight model – _:public_methods_; [:x, :y, :all_knights_moves]
 
 - main.rb; contains the running script. However this was TDD written software, so just read and run the tests.
 
@@ -29,7 +29,7 @@ My approach was essentially to:
 2. reject moves which were out of the chess board's bounds and add remaining valid moves, with knowledge of their parent, to a queue(Board#valid_knights_moves).
 3. check queue for presence of end_value (Board#knight_moves & #check), if found count and return move parent hierarchy to start coordinate, if not found return to step 1.
 
-## Comments, limitations and refactoring thouhgts
+## Comments, limitations and refactoring thoughts
 
 Using TDD I built method by method. On reaching the stage of storing the valid moves in a queue and considering the need to store a move's parental hierarchy I chose to simply store the move and its parent's coordinate as 2 arrays nested inside another array, e.g. [[4,5], [3,3]]. Though a simple concept it results in undesirably deeply nested array data structure. On further consideration creation of a tree, with upto x8 children per node, with each node holding a parent variable, would be a neater data construct.
 
