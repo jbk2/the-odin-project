@@ -16,7 +16,7 @@ You can think of the board as having 2-dimensional coordinates. Your function wo
 
 - Knight model – _:public_methods_; [:x, :y, :all_knights_moves]
 
-- main.rb; contains the running script. However this was TDD written software, so just read and run the tests.
+- main.rb; contains the running program script. However this was TDD written software, so just read and run the tests.
 
 ## Solutiuon approach
 

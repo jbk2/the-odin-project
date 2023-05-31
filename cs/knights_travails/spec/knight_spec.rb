@@ -30,7 +30,7 @@ describe Knight do
     end
     
     context 'with a knight in 0,0 coords' do
-      it 'still gives the 8 L shaped moves even though some are negative values' do
+      it "still gives 8 L shaped moves despite some being out of bounds, i.e. knight does not know about a board's bounds" do
         knight = Knight.new(0,0)
         result = knight.all_knights_moves(0,0)
         moves_array = [[2, 1],[2, -1],[-2, 1],[-2, -1],[1, 2],[-1, 2],[1, -2],[-1, -2]]

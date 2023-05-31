@@ -59,7 +59,7 @@ class Board
 
   def create_grid(dimension)
     grid = []
-    dimension.times { grid << Array.new(8, nil) }
+    dimension.times { grid << Array.new(dimension, nil) }
     grid
   end
   
